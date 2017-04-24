@@ -61,4 +61,22 @@ struct Al {
       }
     }
   }
+  template <typename T>
+  static void slowSort(std::vector<T> &v) {
+    slowSortImpl(v.begin(), v.end() - 1);
+  }
+
+  template <typename Iter>
+  static void slowSortImpl(Iter first, Iter last) {
+    if (first >= last) {
+      return;
+    }
+    Iter mid = first + (last - first) / 2;
+    slowSortImpl(first, mid);
+    slowSortImpl(mid + 1, last);
+    if (*mid > *last) {
+      std::iter_swap(mid, last);
+    }
+    slowSortImpl(first, last - 1);
+  }
 };
