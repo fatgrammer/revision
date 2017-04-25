@@ -1,49 +1,61 @@
-#include <algorithm>
-#include <cstdio>
-#include <cstdlib>
-#include <fstream>
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 #include "al.h"
 #include "canvas.h"
 using namespace std;
 template <typename T>
-void outp(const T &v) {
-  for (const auto &i : v) {
+void outp(const T& v) {
+  for (const auto& i : v) {
+    cout << i << " ";
+  }
+  cout << endl;
+}
+struct Node {
+  Node(int size, int sum = 0)
+      : _size(size), _nextAvailNode(size), _nextNodeAddress(size) {}
+  int sum;
+  int _size;
+  vector<int> _nextAvailNode;
+  vector<shared_ptr<Node>> _nextNodeAddress;
+};
+
+void addTree(Node& root, int presum, int max) {
+  cout << presum << endl;
+  for (int i = 1; i <= max; ++i) {
+    cout << i << " i " << endl;
+    if (presum + i <= root._size) {
+      root._nextNodeAddress[i] = make_shared<Node>(root._size);
+      root._nextAvailNode[i] = 1;
+
+      addTree(*root._nextNodeAddress[i], presum + i, max - i);
+    } else {
+      break;
+    }
+  }
+
+  cout << "s:" << presum << endl;
+}
+void traverse(Node& root) {
+  for (auto& i : root._nextAvailNode) {
     cout << i << " ";
   }
   cout << endl;
 }
 int main(void) {
-  // int width = 30;
-  // int height = 30;
-  // Canvas canvas(width, height);
-
-  // cout << canvas.height << endl;
-  // for (int x = 0; x < width; ++x) {
-  //   for (int y = 0; y < width; ++y) {
-  //     canvas.setPixel(x, y, 200);
-  //   }
+  // vector<int> vi;
+  // for (int i = 0; i < 20; ++i) {
+  //   vi.push_back(i);
   // }
-  // canvas.render();
-  // cout << canvas.texture[90] << endl;
-  // vector<int> vt{1, 2, 3, 4, 9};
 
-  // int ac = accumulate(vt.begin(), vt.end(), 1,
-  //                     [](int a, int b) { return a > b ? a : b; });
+  // std::random_device rd;
+  // std::mt19937 g(rd());
 
-  // cout << ac << endl;
-  vector<int> vi;
-  for (int i = 0; i < 20; ++i) {
-    vi.push_back(i);
-  }
-
-  std::random_device rd;
-  std::mt19937 g(rd());
-
-  std::shuffle(vi.begin(), vi.end(), g);
-  outp(vi);
-  // Al::bubbleSort(vi);
-  Al::simpleInsertionSort(vi);
-  outp(vi);
+  // std::shuffle(vi.begin(), vi.end(), g);
+  // outp(vi);
+  // // Al::bubbleSort(vi);
+  // Al::simpleInsertionSort(vi);
+  // outp(vi);
+  int n = 2;
+  Node root(n);
+  addTree(root, 0, n);
+  // traverse(root);
 }
