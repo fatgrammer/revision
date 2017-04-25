@@ -1,7 +1,12 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6c6a422c641503051b31deb840240863814f9507
 #include <bits/stdc++.h>
 #include "al.h"
 #include "canvas.h"
 using namespace std;
+<<<<<<< HEAD
 template <typename T>
 void outp(const T& v) {
   for (const auto& i : v) {
@@ -58,4 +63,15 @@ int main(void) {
   Node root(n);
   addTree(root, 0, n);
   // traverse(root);
+=======
+int main(void) {
+  vector<int> vi = gener(20);
+  print(vi);
+  // rotate(vi.begin(), vi.begin() + 1, vi.end());
+  // Al::bubbleSort(vi);
+  // Al::simpleInsertionSort(vi);
+  // Al::selectionSort(vi);
+  Al::slowSort(vi);
+  print(vi);
+>>>>>>> 6c6a422c641503051b31deb840240863814f9507
 }
