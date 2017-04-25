@@ -1,30 +1,31 @@
 #ifndef _AL_H_
 #define _AL_H_
 template <typename T>
-void print(const T &v) {
+void print(const T& v) {
   using namespace std;
-  for (const auto &i : v) {
+  for (const auto& i : v) {
     cout << i << " ";
   }
   cout << endl;
 }
 
-std::vector<int> gener(size_t size) {
+std::vector<int> gener(size_t size, bool shuffle) {
   std::vector<int> vi;
   for (int i = 0; i < size; ++i) {
     vi.push_back(i);
   }
+  if (shuffle) {
+    std::random_device rd;
+    std::mt19937 g(rd());
 
-  std::random_device rd;
-  std::mt19937 g(rd());
-
-  std::shuffle(vi.begin(), vi.end(), g);
+    std::shuffle(vi.begin(), vi.end(), g);
+  }
   return vi;
 }
 #endif
 struct Al {
   template <typename T>
-  static void bubbleSort(std::vector<T> &v) {
+  static void bubbleSort(std::vector<T>& v) {
     for (size_t i = 0; i < v.size() - 1; ++i) {
       for (size_t j = 1; j < v.size() - i; ++j) {
         if (v[j] < v[j - 1]) {
@@ -35,7 +36,7 @@ struct Al {
   }
 
   template <typename T>
-  static void simpleInsertionSort(std::vector<T> &v) {
+  static void simpleInsertionSort(std::vector<T>& v) {
     for (size_t i = 1; i < v.size(); ++i) {
       T tmp = v[i];
       size_t j;
@@ -47,7 +48,7 @@ struct Al {
   }
 
   template <typename T>
-  static void selectionSort(std::vector<T> &v) {
+  static void selectionSort(std::vector<T>& v) {
     for (size_t i = 0; i < v.size() - 1; ++i) {
       // T min = v[i];
       size_t minIndex = i;
@@ -62,7 +63,7 @@ struct Al {
     }
   }
   template <typename T>
-  static void slowSort(std::vector<T> &v) {
+  static void slowSort(std::vector<T>& v) {
     slowSortImpl(v.begin(), v.end() - 1);
   }
 
