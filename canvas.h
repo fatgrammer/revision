@@ -4,7 +4,8 @@
 #include <vector>
 struct Canvas {
   void render() {
-    fs << "P3\n" << width << " " << height << "\n"
+    fs << "P3\n"
+       << width << " " << height << "\n"
        << " 256\n";
     for (int x = 0; x < width; ++x) {
       for (int y = 0; y < height; ++y) {

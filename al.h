@@ -23,7 +23,7 @@ std::vector<int> gener(size_t size, bool shuffle) {
   return vi;
 }
 #endif
-struct Al {
+struct SortFunc {
   template <typename T>
   static void bubbleSort(std::vector<T>& v) {
     for (size_t i = 0; i < v.size() - 1; ++i) {
