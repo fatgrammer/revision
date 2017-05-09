@@ -8,7 +8,8 @@
         "-o",
         "m",
         "main.cc",
-        "-std=c++14"
+        "-std=c++14",
+        "-lSDL2"
     ],
     "showOutput": "always"
 }

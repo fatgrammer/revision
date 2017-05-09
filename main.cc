@@ -1,17 +1,13 @@
 #include <bits/stdc++.h>
+#include <SDL2/SDL.h>
 #include "al.h"
 #include "canvas.h"
+#include "cleanup.h"
 using namespace std;
-int main(void) {
-  vector<int> vi = gener(20, false);
-  print(vi);
-  // rotate(vi.begin(), vi.begin() + 1, vi.end());
+void test(void);
 
-  //  next_permutation(vi.begin(), vi.end());
-  //  print(vi);
-  string rep("1122333");
-  auto last = unique(rep.begin(), rep.end());
-  rep.erase(last, rep.end());
-  print(rep);
-  int && i = 3;
+int main(void) {}
+void test() {
+
+  
 }
