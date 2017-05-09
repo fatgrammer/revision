@@ -1,11 +1,13 @@
 #ifndef CLEANUP_H
 #define CLEANUP_H
 #include <utility>
-#include <SDL.h>
-template <typename T, typename... Args>
-void cleanup(T* t Args&&..args) {
-  cleanup(t);
-  cleanup(std::forward<Args>(args)...);
+#include <SDL2/SDL.h>
+template<typename T, typename... Args>
+void cleanup(T *t, Args&&... args){
+	//Cleanup the first item in the list
+	cleanup(t);
+	//Recurse to clean up the remaining arguments
+	cleanup(std::forward<Args>(args)...);
 }
 
 template <>

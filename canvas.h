@@ -16,7 +16,6 @@ struct Canvas {
     }
   }
   void setPixel(int x, int y, int depth) { texture[x * width + y] = depth; }
-
   Canvas(int width, int height)
       : width(width), height(height), texture(width * height) {
     fs.open("g.ppm",
