@@ -1,2 +1,2 @@
-Practice some basic algoritms.
+Write some code.
 ===
