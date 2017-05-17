@@ -1,11 +1,19 @@
 #ifndef WRAPPER_H
 #define WRAPPER_H
-
+#include <unistd.h>
 struct Renderer {
   Renderer(int x = 400, int y = 400) : width(x), height(y) {
     SDL_CreateWindowAndRenderer(x, y, 0, &window, &renderer);
+    setRenderDrawColor(0, 0, 0, 255);
+    clearRender();
   }
-  ~Renderer() { cleanup(renderer, window); }
+  ~Renderer() {
+    drawAllPoints();
+    renderPresent();
+    sleep(1);
+
+    cleanup(renderer, window);
+  }
   void drawPoint(int x, int y) {
     SDL_RenderDrawPoint(renderer, x, y);  // Renders on middle of screen.
   }
