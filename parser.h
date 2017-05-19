@@ -1,15 +1,15 @@
 #ifndef Parser_H
 #define Parser_H
-#include <string>
-#include <memory>
-#include <iostream>
 #include <algorithm>
-#include <vector>
+#include <iostream>
+#include <memory>
 #include <string>
-
+#include <vector>
+// template<typename T>
+// Node<T>::RootStack{};
 template <typename T>
 struct Node {
-  static std::vector<Node<T>*> RootStack{};
+  static std::vector<std::unique_ptr<Node<T>>*> RootStack;
   void addLeft(std::unique_ptr<Node<T>> node) { this->left = std::move(node); }
   void addRight(std::unique_ptr<Node<T>> node) {
     this->right = std::move(node);
@@ -54,7 +54,17 @@ struct Node {
   }
   //   static std::vector<Node<T>> RootStack;
   static void parse(std::unique_ptr<Node<T>>& root, T val) {
-    if (root->left == nullptr) {
+    if (root->left == nullptr && val == "(") {
+      std::unique_ptr<Node<T>> tRoot = std::make_unique<Node<T>>();
+      root->left = std::move(tRoot);
+      Node<T>::RootStack.push_back(&(root->left));
+    } else if (root->right == nullptr && val == "(") {
+      std::unique_ptr<Node<T>> tRoot = std::make_unique<Node<T>>();
+      root->right = std::move(tRoot);
+      Node<T>::RootStack.push_back(&(root->right));
+    } else if (val == ")") {
+      Node<T>::RootStack.pop_back();
+    } else if (root->left == nullptr) {
       root->left = std::make_unique<Node<T>>();
       root->left->op_ = val;
     } else if (root->op_.empty()) {
@@ -73,10 +83,6 @@ struct Node {
       tmp->op_ = val;
       tmp->left = std::move(root->right);
       root->right = std::move(tmp);
-    } else if (val == "(") {
-      std::unique_ptr<Node<T>> tRoot = std::make_unique<Node<T>>();
-      RootStack.push_back(&(*tRoot));
-    } else if (val == ")") {
     } else {
       parse(root->right, val);
     }
@@ -87,5 +93,6 @@ struct Node {
   std::unique_ptr<Node> right;
   T op_;
 };
-
+template <typename T>
+std::vector<std::unique_ptr<Node<T>>*> Node<T>::RootStack{};
 #endif
