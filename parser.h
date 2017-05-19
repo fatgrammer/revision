@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
+#include <vector>
 template <typename T>
 struct Node {
   void addLeft(std::unique_ptr<Node<T>> node) { this->left = std::move(node); }
@@ -45,40 +46,43 @@ struct Node {
     }
   }
 
-
   void build(std::vector<T> v) {
     std::for_each(v.begin(), v.end(), [this](T& e) { this->addNode(e); });
   }
-
+  static std::vector<std::weak_ptr<Node<T>>> RootStack();
+  static void parse(std::unique_ptr<Node<T>>& root, T val) {
+    if (root->left == nullptr) {
+      root->left = std::make_unique<Node<T>>();
+      root->left->op_ = val;
+    } else if (root->op_.empty()) {
+      //   std::cout << val;
+      root->op_ = val;
+    } else if (root->right == nullptr) {
+      root->right = std::make_unique<Node<T>>();
+      root->right->op_ = val;
+    } else if (val == "+" || val == "-") {
+      std::unique_ptr<Node<T>> tmp = std::make_unique<Node<T>>();
+      tmp->op_ = val;
+      tmp->left = std::move(root);
+      root = std::move(tmp);
+    } else if (val == "*" || val == "/") {
+      std::unique_ptr<Node<T>> tmp = std::make_unique<Node<T>>();
+      tmp->op_ = val;
+      tmp->left = std::move(root->right);
+      root->right = std::move(tmp);
+    } else if (val == "(") {
+      std::weak_ptr<Node<T>> tRoot = std::make_shared<Node<T>>();
+    //   RootStack.push_back(tRoot);
+    } else if (val == ")") {
+    } else {
+      parse(root->right, val);
+    }
+  }
   Node() = default;
 
   std::unique_ptr<Node> left;
   std::unique_ptr<Node> right;
   T op_;
 };
-template <typename T>
-void parse(std::unique_ptr<Node<T>>& root, T val) {
-  if (root->left == nullptr) {
-    root->left = std::make_unique<Node<T>>();
-    root->left->op_ = val;
-  } else if (root->op_.empty()) {
-    //   std::cout << val;
-    root->op_ = val;
-  } else if (root->right == nullptr) {
-    root->right = std::make_unique<Node<T>>();
-    root->right->op_ = val;
-  } else if (val == "+" || val == "-") {
-    std::unique_ptr<Node<T>> tmp = std::make_unique<Node<T>>();
-    tmp->op_ = val;
-    tmp->left = std::move(root);
-    root = std::move(tmp);
-  } else if (val == "*" || val == "/") {
-    std::unique_ptr<Node<T>> tmp = std::make_unique<Node<T>>();
-    tmp->op_ = val;
-    tmp->left = std::move(root->right);
-    root->right = std::move(tmp);
-  } else {
-      parse(root->right, val);
-  }
-}
+
 #endif

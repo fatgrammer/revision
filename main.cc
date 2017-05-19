@@ -12,7 +12,7 @@ void parseInstance();
 const int width = 255;
 const int height = 255;
 int main(void) {
-    test();
+    // test();
   parseInstance();
 }
 void test() {
@@ -20,6 +20,7 @@ void test() {
 }
 
 void parseInstance() {
+
   vector<string> ctn{"123", "+", "126", "*", "124", "-", "125", "/", "12"};
   vector<int> vi;
   //   for (int i = 10; i > 0; --i){
@@ -31,7 +32,7 @@ void parseInstance() {
 
   std::for_each(ctn.begin(), ctn.end(), [&root](string& e) {
     //   root->addNode(e);
-    parse(root, e);
+    Node<string>::parse(root, e);
   });
   //   for (int i = 0; i < ctn.size(); ++i) {
   //     parse(root, ctn[i]);
